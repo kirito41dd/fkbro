@@ -1,0 +1,8 @@
+{{range .}}
+`播报方` : [{{.Extras.Pool_name}}]({{.Extras.Pool_link}})
+`时间` : `{{GetPastTime .Timestamp}}`
+`高度` : `{{.Height}}`
+`大小` : `{{.Size}}B`
+`收益` : `{{.GetReword}}BTC`
+{{end}}
+`详情 `: [btc.com](https://btc.com)

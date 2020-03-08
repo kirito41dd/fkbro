@@ -1,0 +1,10 @@
+`地址` : `{{.Address}}`
+`总接收` : `{{.GetRecv}}BTC`
+`总支出` : `{{.GetSent}}BTC`
+`余额` : `{{.GetBalance}}BTC`
+`交易次数` : `{{.Tx_count}}`
+`最后一次交易` : `{{.Last_tx}}`
+`详情` : [btc.com](https://btc.com/{{.Address}})
+
+
+
