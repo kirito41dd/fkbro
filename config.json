@@ -1,0 +1,8 @@
+{
+  "bot_token": "your_token",
+  "proxy": "",
+  "cache_size": 5000,
+  "api_host": "https://chain.api.btc.com/v3",
+  "static_path": "static",
+  "debug": false
+}
