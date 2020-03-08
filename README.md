@@ -14,6 +14,8 @@ Telegram Bot [@btcinfo_kirito_bot](https://t.me/btcinfo_kirito_bot) 暴躁老哥
 * 填写配置文件`config.json`
   * `bot_token`  - 机器人`token`
   * `proxy` - 国内无法连接`telegram`服务器,可配置代理
+    * `socks5://127.0.0.1:1080`
+    * `http://127.0.0.1:1081`
   * `static_path` - `/static`文件夹的路径,要确保程序运行时可以找到
   * 其余保持默认
 * 执行 `./fkbro.exe -c config.json` ,也可以不用`-c`参数,默认执行目录下`config.json`
