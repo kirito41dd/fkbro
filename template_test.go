@@ -23,3 +23,5 @@ func Test_temp(t *testing.T) {
 	tran , _ := api.GetTransactionInfo("9b5877539f6b422ae5c72e1a105defa4de5ecbc1d9175a0c30207d887b3864df")
 	t.Log(ParseToString("transaction", tran))
 }
+
+

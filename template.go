@@ -51,6 +51,7 @@ func LoadTemplate(root string){
 	loadtmp("address", root + "address.tmp")
 	loadtmp("help", root + "help.tmp")
 	loadtmp("recent", root + "recent.tmp")
+	loadtmp("quotes", root + "quotes.tmp")
 }
 
 func ParseToString(key string, i interface{}) (str string) {

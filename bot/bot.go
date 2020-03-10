@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strings"
 )
 
 type Bot struct {
@@ -48,6 +49,10 @@ func (bot *Bot) Dispatch(update *tgbotapi.Update) {
 				if entity.Type == "bot_command" {
 					bot.Logger.Debug("offse:len", entity.Offset, entity.Length, "msg" , update.Message.Text)
 					url := update.Message.Text[entity.Offset : entity.Offset+entity.Length]
+					i := strings.Index(url, "@") // 提取命令 /help@kirito_testonly_bot
+					if i != -1 {
+						url = url[:i]
+					}
 					bot.Router.DoHandle(url, update)
 					return
 				}

@@ -1,3 +1,5 @@
+交易详情:
+-
 `交易` : `{{.Hash}}`
 `所在块高度` : `{{.Block_height}}`
 `确认数` : `{{.Confirmations}}`

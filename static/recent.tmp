@@ -1,3 +1,4 @@
+最近出块:
 {{range .}}
 `播报方` : [{{.Extras.Pool_name}}]({{.Extras.Pool_link}})
 `时间` : `{{GetPastTime .Timestamp}}`

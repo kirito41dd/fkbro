@@ -1,3 +1,5 @@
+最新出块:
+-
 `播报方`: [{{.Extras.Pool_name}}]({{.Extras.Pool_link}})
 `块高度`: `{{.Height}}`
 `块收益`: `{{.GetReword}}BTC`

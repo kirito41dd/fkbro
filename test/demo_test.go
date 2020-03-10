@@ -158,3 +158,30 @@ func Test_re2(t *testing.T) {
 		t.Log(s)
 	}
 }
+
+func Test_kline(t *testing.T) {
+
+	Proxy := func(_ *http.Request) (*url.URL, error) {
+		return url.Parse(util.Config.Proxy)
+	}
+	transport := &http.Transport{Proxy:Proxy}
+	client := http.Client{}
+	if util.Config.Proxy != "" {
+		client.Transport = transport
+	}
+
+	req, _ := http.NewRequest("GET", "https://api.huobi.pro/market/history/kline", nil)
+	q := req.URL.Query()
+	q.Add("symbol", "btcusdt")
+	q.Add("period", "60min")
+	q.Add("size", "1")
+	req.URL.RawQuery = q.Encode()
+
+	resp, _ := client.Do(req)
+	t.Log(req.URL.String())
+	data,_ := ioutil.ReadAll(resp.Body)
+	m := make(map[string]interface{})
+	t.Log(data)
+	json.Unmarshal(data, &m)
+	t.Log(m)
+}

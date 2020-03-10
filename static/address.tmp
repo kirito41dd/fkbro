@@ -1,3 +1,5 @@
+地址详情:
+-
 `地址` : `{{.Address}}`
 `总接收` : `{{.GetRecv}}BTC`
 `总支出` : `{{.GetSent}}BTC`

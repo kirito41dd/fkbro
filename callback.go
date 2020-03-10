@@ -14,7 +14,8 @@ import (
 func help(update *tgbotapi.Update) {
 	Log.Debug("recv msg:", update.Message.Text, "chatID:", update.Message.Chat.ID)
 	msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
-	msg.Text = ParseToString("help", nil)
+	msg.Text = "@" + update.Message.From.UserName + " - " + update.Message.From.FirstName + "\n"
+	msg.Text += ParseToString("help", nil)
 	msg.ParseMode = "Markdown"
 	send(&msg, 5)
 }
@@ -22,13 +23,13 @@ func help(update *tgbotapi.Update) {
 func newest(update *tgbotapi.Update) {
 	Log.Debug("recv msg:", update.Message.Text, "chatID:", update.Message.Chat.ID)
 	msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
-
+	msg.Text = "@" + update.Message.From.UserName + " - " + update.Message.From.FirstName + "\n"
 	block, err := getNewestBlock()
 	if err != nil {
 		Log.Error("GetBlockInfo:", err)
 		return
 	}
-	msg.Text = ParseToString("block", block)
+	msg.Text += ParseToString("block", block)
 	msg.ParseMode = "Markdown"
 	send(&msg, 5)
 }
@@ -36,6 +37,7 @@ func newest(update *tgbotapi.Update) {
 func recent(update *tgbotapi.Update) {
 	Log.Debug("recv msg:", update.Message.Text, "chatID:", update.Message.Chat.ID)
 	msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
+	msg.Text = "@" + update.Message.From.UserName + " - " + update.Message.From.FirstName + "\n"
 	msg.ParseMode = "Markdown"
 
 	arr := make([]*btcinfo.Block, 0)
@@ -55,13 +57,14 @@ func recent(update *tgbotapi.Update) {
 		arr = append(arr, b)
 	}
 
-	msg.Text = ParseToString("recent", arr)
+	msg.Text += ParseToString("recent", arr)
 	send(&msg, 5)
 }
 
 func q(update *tgbotapi.Update) {
 	Log.Debug("recv msg:", update.Message.Text, "chatID:", update.Message.Chat.ID)
 	msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
+	msg.Text = "@" + update.Message.From.UserName + " - " + update.Message.From.FirstName + "\n"
 	msg.ParseMode = "Markdown"
 	fields := strings.Fields(update.Message.Text)
 	var want string
@@ -86,13 +89,13 @@ func q(update *tgbotapi.Update) {
 	}
 	if len(want) < 20 || strings.HasPrefix(want, "000000") { // block 块
 		iface, err = API.GetBlockInfo(want)
-		msg.Text = ParseToString("block", iface)
+		msg.Text += ParseToString("block", iface)
 	} else if len(want) > 20 && len(want) < 40 { // address 地址
 		iface, err = API.GetAddressInfo(want)
-		msg.Text = ParseToString("address", iface)
+		msg.Text += ParseToString("address", iface)
 	} else if len(want) == 64 { // transaction 交易
 		iface, err = API.GetTransactionInfo(want)
-		msg.Text = ParseToString("transaction", iface)
+		msg.Text += ParseToString("transaction", iface)
 	} else {
 		return
 	}
@@ -100,6 +103,20 @@ func q(update *tgbotapi.Update) {
 		Log.Debug(err)
 		return
 	}
+	send(&msg, 5)
+}
+
+func quotes(update *tgbotapi.Update) {
+	Log.Debug("recv msg:", update.Message.Text, "chatID:", update.Message.Chat.ID)
+	msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
+	msg.Text = "@" + update.Message.From.UserName + " - " + update.Message.From.FirstName + "\n"
+	msg.ParseMode = "Markdown"
+
+	klines, err := HuobiAPI.GetKLine("btcusdt", "60min", 1)
+	if err != nil {
+		return
+	}
+	msg.Text += ParseToString("quotes", klines[0])
 	send(&msg, 5)
 }
 
@@ -138,7 +155,7 @@ func send(msg *tgbotapi.MessageConfig, duration int) {
 	for ; cnt > 0; cnt-- {
 		_, err := Bot.TgBot.Send(msg)
 		if err != nil {
-			Log.Debug("send msg:", err, " will retry...", cnt)
+			Log.Debug("send msg:", err, " will retry...", cnt-1)
 			<-time.After(time.Duration(duration)*time.Second)
 		} else {
 			break
