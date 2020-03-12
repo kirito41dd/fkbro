@@ -15,6 +15,7 @@ type Bot struct {
 	Proxy	string
 	Token 	string
 	Router	*BotRouter
+	CallbackQueryRouter *BotRouter
 	ExitChan chan interface{}
 	Logger *ezlog.EzLogger
 }
@@ -37,6 +38,7 @@ func NewBot(token string, proxy string) (*Bot, error){
 	bot.Proxy = proxy
 	bot.Token = token
 	bot.Router = NewBotRouter()
+	bot.CallbackQueryRouter = NewBotRouter()
 	bot.ExitChan = make(chan interface{})
 	bot.Logger = ezlog.New(os.Stdout, "", ezlog.BitDefault, ezlog.LogAll)
 	return bot, nil
@@ -58,10 +60,27 @@ func (bot *Bot) Dispatch(update *tgbotapi.Update) {
 				}
 			}
 		}
+		bot.Router.DoHandle("unknow", update)
+
+	} else if update.CallbackQuery != nil {
+		if update.CallbackQuery.Message != nil {
+			mp  := make(map[string]string)
+			err := json.Unmarshal([]byte(update.CallbackQuery.Data), &mp)
+			if err != nil {
+				bot.Logger.Error(err)
+				return
+			}
+			if mp["cmd"] == "" {
+				return
+			}
+			bot.Logger.Debug(mp)
+			bot.CallbackQueryRouter.DoHandle(mp["cmd"], update)
+		}
+	} else {
+		bot.Logger.Warn("其他消息类型", update)
+		//bot.Router.DoHandle("unknow", update)
 	}
 
-	bot.Logger.Warn("其他消息类型，切换到 unknow")
-	bot.Router.DoHandle("unknow", update)
 }
 
 func (bot *Bot) Loop() {

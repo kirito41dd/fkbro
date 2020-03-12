@@ -1,0 +1,4 @@
+汇率:
+-
+`1USD` = `{{.Get1USD2CNY}}CNY`
+`1BTC` = `{{.Get1BTC2CNY}}CNY`

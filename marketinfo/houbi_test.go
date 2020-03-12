@@ -1,4 +1,4 @@
-package main
+package marketinfo
 
 import (
 	"github.com/zshorz/fkbro/util"
@@ -10,4 +10,6 @@ func Test_KLine(t *testing.T) {
 	t.Log(util.Config.Proxy)
 	klines, err := huobi.GetKLine("btcusdt", "60min", 1)
 	t.Log(klines[0], err)
+	ex := huobi.GetExchange()
+	t.Log(ex)
 }

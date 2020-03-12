@@ -1,8 +1,11 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/zshorz/fkbro/btcinfo"
+	"github.com/zshorz/fkbro/marketinfo"
 	"github.com/zshorz/fkbro/util"
 	"regexp"
 	"strconv"
@@ -106,17 +109,105 @@ func q(update *tgbotapi.Update) {
 	send(&msg, 5)
 }
 
+// 把逻辑独立处理，给callbackquery用
+func _quotes(arg string) string {
+	klines, err := HuobiAPI.GetKLine(arg, "1day", 2)
+	if err != nil {
+		return ""
+	}
+	klines[0].SetYesterday(klines[1].Close)
+	return ParseToString("quotes", klines[0])
+}
+
 func quotes(update *tgbotapi.Update) {
 	Log.Debug("recv msg:", update.Message.Text, "chatID:", update.Message.Chat.ID)
 	msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
 	msg.Text = "@" + update.Message.From.UserName + " - " + update.Message.From.FirstName + "\n"
 	msg.ParseMode = "Markdown"
 
-	klines, err := HuobiAPI.GetKLine("btcusdt", "60min", 1)
-	if err != nil {
+	fields := strings.Fields(update.Message.Text)
+	var want string
+	for _, s := range fields {
+		if strings.HasPrefix(s, "/") || strings.HasPrefix(s, "@") {
+			continue
+		} else {
+			want = s
+			break
+		}
+	}
+	if want == "" {
+		want = "btcusdt"
+	}
+	msg.Text += _quotes(want)
+	send(&msg, 5)
+}
+
+func exchange(update *tgbotapi.Update) {
+	Log.Debug("recv msg:", update.Message.Text, "chatID:", update.Message.Chat.ID)
+	msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
+	msg.Text = "@" + update.Message.From.UserName + " - " + update.Message.From.FirstName + "\n"
+	msg.ParseMode = "Markdown"
+
+	kline, err := HuobiAPI.GetKLine("btcusdt", "1day", 1)
+	ex := HuobiAPI.GetExchange()
+
+	if err != nil || ex == nil {
+		Log.Debug(err, "or", "ex is nil")
 		return
 	}
-	msg.Text += ParseToString("quotes", klines[0])
+	ex.SetBTC2USDT(kline[0].Close)
+	msg.Text += ParseToString("exchange", ex)
+	send(&msg, 5)
+}
+
+func market(update *tgbotapi.Update) {
+	Log.Debug("recv msg:", update.Message.Text, "chatID:", update.Message.Chat.ID)
+	msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
+	msg.Text = "@" + update.Message.From.UserName + " - " + update.Message.From.FirstName + "\n"
+	msg.ParseMode = "Markdown"
+
+	var klines = make([]*marketinfo.KLine,0)
+
+	for k,_ := range marketinfo.Symbol_name {
+		kline, err := HuobiAPI.GetKLine(k, "1day", 2)
+		if err != nil || len(kline) != 2 {
+			continue
+		}
+		kline[0].SetYesterday(kline[1].Close)
+		klines = append(klines, kline[0])
+	}
+	length := len(klines)
+	for i := 0; i< length; i++ {
+		for j := 0; j < length-1-i; j++ {
+			if klines[j].Close < klines[j+1].Close {
+				klines[j], klines[j+1] = klines[j+1], klines[j]
+			}
+		}
+	}
+
+
+	rows := make([][]tgbotapi.InlineKeyboardButton, len(klines))
+
+	for k, v := range klines {
+		rows[k] = make([]tgbotapi.InlineKeyboardButton,1)
+		text := v.GetName() + " 涨幅: " + v.GetChange()+ "% 价格: " + fmt.Sprintf("%.3f", v.Close) + " .............."
+		mp := make(map[string]string)
+		mp["cmd"] = "showQuotes"
+		mp["arg"] = v.GetSymbol()
+		data, err := json.Marshal(mp)
+		if err != nil {
+			Log.Error(err)
+			return
+		}
+		rows[k][0] = tgbotapi.NewInlineKeyboardButtonData(text, string(data))
+	}
+
+	var numKeyboard = tgbotapi.NewInlineKeyboardMarkup(rows...)
+	// 生成键盘
+
+	msg.ReplyMarkup = numKeyboard
+
+	msg.Text += ParseToString("market", klines)
 	send(&msg, 5)
 }
 

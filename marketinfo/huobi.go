@@ -1,7 +1,8 @@
-package main
+package marketinfo
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/zshorz/ezlog"
 	"io/ioutil"
 	"net/http"
@@ -10,24 +11,7 @@ import (
 	"strconv"
 )
 
-/// https://huobiapi.github.io/docs/spot/v1/cn/
-type Response struct {
-	Status		string		`json:"status"`		// 接口返回状态
-	Ch 			string 		`json:"ch"`			// 接口数据对应的数据流。部分接口没有对应数据流因此不返回此字段
-	Ts 			int64 		`json:"ts"`			// 返回的时间戳
-	Data 		interface{}	`json:"data"`		// 数据主体
-}
 
-type KLine struct {
-	// TODO: 只使用了关注的字段
-	Id 			int64 		`json:"id"`			// 调整为新加坡时间的时间戳，单位秒，并以此作为此K线柱的id
-	Open 		float32 	`json:"open"`		// 开盘
-	Close 		float32 	`json:"close"`		// 收盘价
-	High 		float32 	`json:"high"`		// 最高
-	Low 		float32 	`json:"low"`		// 最低
-}
-
-var client *http.Client
 
 type Huobi struct {
 	Client 		*http.Client
@@ -51,6 +35,24 @@ func NewHuobi(proxy string) *Huobi {
 		huobi.Client.Transport = Transport
 	}
 	return huobi
+}
+
+// 获取汇率，用的不是火币api
+func (h *Huobi) GetExchange() *Exchange {
+	req, err := http.NewRequest("GET","https://api.exchangerate-api.com/v4/latest/USD", nil)
+	resp, err := h.Client.Do(req)
+	if err != nil {
+		h.Logger.Debug(err)
+		return nil
+	}
+	data, _ := ioutil.ReadAll(resp.Body)
+	var ex Exchange
+	err = json.Unmarshal(data, &ex)
+	if err != nil {
+		h.Logger.Debug(err)
+		return nil
+	}
+	return &ex
 }
 
 // btcusdt 60min 1
@@ -77,6 +79,14 @@ func (h *Huobi) GetKLine(symbol, period string, size int) ([]*KLine, error) {
 		h.Logger.Debug(err)
 		return nil, err
 	}
+	for _, k := range kline {
+		k.name = Symbol_name[symbol]
+		if k.name == "" {
+			k.name = symbol
+		}
+		k.symbol = symbol
+		k.time = period_time[period]
+	}
 	return kline, nil
 }
 
@@ -92,6 +102,10 @@ func (h *Huobi) query(req *http.Request) (*Response, error) {
 	if err != nil {
 		h.Logger.Debug(err)
 		return nil, err
+	}
+	if ret.Status != "ok" {
+		h.Logger.Debug("return status =", ret.Status)
+		return nil, errors.New("status != ok")
 	}
 	return &ret, nil
 }

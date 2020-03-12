@@ -1,6 +1,8 @@
-1小时行情: `BTC/USDT`
+{{.GetTime}}行情: `{{.GetName}}`
 -
-`最高` : `{{.High}}`
 `当前` : *{{.Close}}*
 `开盘` : `{{.Open}}`
+`最高` : `{{.High}}`
 `最低` : `{{.Low}}`
+
+`{{.GetChange}}%`

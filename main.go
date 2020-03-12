@@ -2,10 +2,11 @@ package main
 
 import (
 	"flag"
+	"github.com/zshorz/ezlog"
 	"github.com/zshorz/fkbro/bot"
 	"github.com/zshorz/fkbro/btcinfo"
+	"github.com/zshorz/fkbro/marketinfo"
 	"github.com/zshorz/fkbro/util"
-	"github.com/zshorz/ezlog"
 	"os"
 	"os/signal"
 	"syscall"
@@ -15,7 +16,7 @@ import (
 var Log = ezlog.New(os.Stdout, "", ezlog.BitDefault, ezlog.LogAll)
 var Bot *bot.Bot
 var API *btcinfo.BTC_com_api
-var HuobiAPI *Huobi
+var HuobiAPI *marketinfo.Huobi
 
 var configfile string
 
@@ -27,7 +28,7 @@ func main() {
 	util.Config.Reload(configfile)
 
 	API = btcinfo.NewBTC_com_api(util.Config.ApiHost, util.Config.CacheSize)
-	HuobiAPI = NewHuobi(util.Config.Proxy)
+	HuobiAPI = marketinfo.NewHuobi(util.Config.Proxy)
 
 	for  {
 		bot, error := bot.NewBot(util.Config.BotToken, util.Config.Proxy)
@@ -55,6 +56,10 @@ func main() {
 	Bot.Router.AddHandle("unknow", unknow)
 	Bot.Router.AddHandle("/recent", recent)
 	Bot.Router.AddHandle("/quotes", quotes)
+	Bot.Router.AddHandle("/exchange", exchange)
+	Bot.Router.AddHandle("/market", market)
+
+	Bot.CallbackQueryRouter.AddHandle("showQuotes", showQuotes)
 
 	LoadTemplate(util.Config.StaticPath)
 	go doSignal()
