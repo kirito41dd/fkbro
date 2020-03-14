@@ -154,6 +154,7 @@ func (api *BTC_com_api) GetBlockInfo(want string) (*Block, error) {
 }
 
 // 返回 response结果的data字段
+//
 func (api *BTC_com_api) doquery(url string) (interface{}, error) {
 	api.Logger.Debug("do query", url)
 	api.QueryCnt++
@@ -167,11 +168,16 @@ func (api *BTC_com_api) doquery(url string) (interface{}, error) {
 		api.Logger.Debug(err)
 		return nil, err;
 	}
-	body, _ := ioutil.ReadAll(re.Body)
+	body, err := ioutil.ReadAll(re.Body)
+	if err != nil {
+		api.Logger.Debug(err)
+		return nil, err
+	}
 	var resp Response
 
 	err = json.Unmarshal(body, &resp)
 	if err != nil {
+		api.Logger.Debug(err,"\n", string(body),"\n", resp)
 		return nil, err
 	}
 	if resp.Err_no != 0 || resp.Error_msg != "" {

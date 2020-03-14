@@ -40,9 +40,14 @@ func GetPastTime(b int64) string {
 	return str
 }
 
+func Raw(raw string) template.HTML {
+	return template.HTML(raw)
+}
+
 func LoadTemplate(root string){
 	FuncMap["GetBtcValueString"] = GetBtcValueString
 	FuncMap["GetPastTime"] = GetPastTime
+	FuncMap["Raw"] = Raw
 	if root[len(root)-1:] != "/" {
 		root = root + "/"
 	}

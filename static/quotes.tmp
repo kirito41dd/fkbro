@@ -5,4 +5,4 @@
 `最高` : `{{.High}}`
 `最低` : `{{.Low}}`
 
-`{{.GetChange}}%`
+`{{.GetChange | Raw}}%`

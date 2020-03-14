@@ -166,6 +166,8 @@ func Test_kline(t *testing.T) {
 	}
 	transport := &http.Transport{Proxy:Proxy}
 	client := http.Client{}
+
+	
 	if util.Config.Proxy != "" {
 		client.Transport = transport
 	}

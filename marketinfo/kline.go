@@ -1,6 +1,8 @@
 package marketinfo
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // 这个map里的币种会被当作主流币,都与usdt比较
 var Symbol_name = map[string]string{

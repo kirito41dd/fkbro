@@ -1,11 +1,12 @@
 # fkbro
 [![](https://img.shields.io/github/last-commit/zshorz/fkbro)](https://github.com/zshorz/fkbro/)
 
-Telegram Bot [@btcinfo_kirito_bot](https://t.me/btcinfo_kirito_bot) 暴躁老哥 BTC信息查询机器人
+Telegram Bot [@btcinfo_kirito_bot](https://t.me/btcinfo_kirito_bot) 暴躁老哥 BTC信息、行情查询机器人
 ## 预览
 * 在`Telegram`中搜索 `@btcinfo_kirito_bot` 即可添加机器人 
 * `/help`获取操作方法
 * 可以把机器人添加到群组
+
 ## 编译
 * 进入到项目的根目录
 * 执行 `go build -o fkbro.exe github.com/zshorz/fkbro`

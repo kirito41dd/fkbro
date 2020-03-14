@@ -51,11 +51,11 @@ func recent(update *tgbotapi.Update) {
 	}
 	arr = append(arr, latestb)
 	// TODO: 使用单次查询获得所有区块
-	for i := 1; i < 9; i++ {
+	for i := 1; i < 5; i++ {
 		b, err := API.GetBlockInfo( strconv.Itoa(int(latestb.Height) - i) )
 		if err != nil {
 			Log.Error(err)
-			return
+			break
 		}
 		arr = append(arr, b)
 	}
