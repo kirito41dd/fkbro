@@ -24,4 +24,27 @@ func Test_temp(t *testing.T) {
 	t.Log(ParseToString("transaction", tran))
 }
 
+func Test_alert(t *testing.T) {
+	LoadTemplate(util.Config.StaticPath)
+	w := WhaleTrans{
+		Blockchain: "",
+		Symbol:     "",
+		Hash:       "",
+		Timestamp:  0,
+		Amount:     0,
+		Amount_usd: 0,
+		From:       WhaleAddr{},
+		To:         WhaleAddr{},
+	}
+	w.Amount_usd = 1234567
+	w.Amount = 123
+	w.From.Owner_type= "from"
+	w.To.Owner_type = "to"
+	w.Hash = "asd"
+	str := ParseToString("alert", w)
+	t.Log(str)
+}
+
+
+
 

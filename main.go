@@ -58,11 +58,13 @@ func main() {
 	Bot.Router.AddHandle("/quotes", quotes)
 	Bot.Router.AddHandle("/exchange", exchange)
 	Bot.Router.AddHandle("/market", market)
+	Bot.Router.AddHandle("/rss", rss)
 
 	Bot.CallbackQueryRouter.AddHandle("showQuotes", showQuotes)
 
 	LoadTemplate(util.Config.StaticPath)
 	go doSignal()
+	go live()
 	Bot.Loop()
 	Log.Info("good bye: api query cnt", API.QueryCnt)
 }
@@ -73,6 +75,7 @@ func doSignal() {
 
 	for sig := range sigs{
 		if sig == syscall.SIGINT {
+			liveExitChan <- 1
 			Bot.ExitChan <- 1
 		} else if sig == syscall.SIGHUP {
 			;

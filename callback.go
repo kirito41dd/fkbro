@@ -14,6 +14,57 @@ import (
 	"time"
 )
 
+
+func rss(update *tgbotapi.Update) {
+	Log.Debug("recv msg:", update.Message.Text, "chatID:", update.Message.Chat.ID)
+	if update.Message.From.UserName != util.Config.BotOwner {
+		return
+	}
+	msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
+	fields := strings.Fields(update.Message.Text)
+	arg := ""
+	for _, s := range fields {
+		if s[0] == '@' {
+			arg = s[1:]
+		}
+	}
+	if arg == "" {
+		liveMapLock.Lock()
+		msg.Text = "当前订阅:"
+		for k, _ := range liveMap {
+			msg.Text += "\n@" + k
+		}
+		liveMapLock.Unlock()
+		send(&msg, 5)
+		return
+	}
+	chat, err := Bot.TgBot.GetChat(tgbotapi.ChatConfig{
+		ChatID:             0,
+		SuperGroupUsername: "@"+arg,
+	})
+	if err != nil {
+		Log.Debug(err)
+		msg.Text = "获取群组或频道失败!"
+		send(&msg, 5)
+		return
+	}
+	id := chat.ID
+	Log.Debug("chatId", id)
+
+	liveMapLock.Lock()
+	_, ok := liveMap[arg]
+	if ok {
+		delete(liveMap, arg)
+		msg.Text = "@" + arg + " 取消订阅"
+	} else {
+		liveMap[arg] = id
+		msg.Text = "@" + arg + " 加入订阅"
+	}
+	liveMapLock.Unlock()
+
+	send(&msg, 5)
+}
+
 func help(update *tgbotapi.Update) {
 	Log.Debug("recv msg:", update.Message.Text, "chatID:", update.Message.Chat.ID)
 	msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")

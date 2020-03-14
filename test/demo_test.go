@@ -3,6 +3,7 @@ package test
 import (
 	"crypto/tls"
 	"encoding/json"
+	"fmt"
 	"github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/zshorz/fkbro/btcinfo"
 	"github.com/zshorz/fkbro/util"
@@ -158,6 +159,8 @@ func Test_re2(t *testing.T) {
 		t.Log(s)
 	}
 }
+
+
 
 func Test_kline(t *testing.T) {
 

@@ -14,6 +14,8 @@ type GlobalObj struct {
 	ApiHost		string 	`json:"api_host"`
 	StaticPath	string	`json:"static_path"`
 	Debug 		bool 	`json:"debug"`
+	BotOwner 	string 	`json:"bot_owner"` // username 如 yesiare 不要@
+	WhaleApikey string  `json:"whale_apikey"` // https://docs.whale-alert.io/#introduction
 }
 
 
@@ -45,6 +47,8 @@ func init() {
 		ApiHost:   "https://chain.api.btc.com/v3" ,
 		StaticPath: "static",
 		Debug:		true,
+		BotOwner: 	"yesiare",
+		WhaleApikey: "",
 	}
 	Logger = ezlog.New(os.Stdout, "", ezlog.BitDefault, ezlog.LogAll)
 }

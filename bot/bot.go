@@ -77,7 +77,7 @@ func (bot *Bot) Dispatch(update *tgbotapi.Update) {
 			bot.CallbackQueryRouter.DoHandle(mp["cmd"], update)
 		}
 	} else {
-		bot.Logger.Warn("其他消息类型", update)
+		bot.Logger.Debug("其他消息类型", update)
 		//bot.Router.DoHandle("unknow", update)
 	}
 

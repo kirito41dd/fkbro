@@ -4,4 +4,9 @@
 /q - `查询: 块高度 块哈希 交易哈希 地址`
 /recent - `查看最近出块情况`
 /quotes - `1小时行情`
-机器人地址 : [github](https://github.com/zshorz/fkbro) @yesiare
+/exchange - `汇率`
+/market - `市场主流币`
+/rss - `username 订阅/取消 only bot owner`
+机器人源码: [github](https://github.com/zshorz/fkbro) @yesiare
+其他链接:
+[写给小白的比特币入门](https://www.cnblogs.com/kirito1/p/12461965.html)

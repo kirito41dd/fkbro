@@ -4,5 +4,7 @@
   "cache_size": 5000,
   "api_host": "https://chain.api.btc.com/v3",
   "static_path": "static",
-  "debug": false
+  "debug": false,
+  "bot_owner": "yesiare",
+  "whale_apikey": ""
 }

@@ -163,6 +163,9 @@ func (api *BTC_com_api) doquery(url string) (interface{}, error) {
 		api.Logger.Debug(err)
 		return nil, err;
 	}
+	req.Header.Add("Host", "chain.api.btc.com")
+	req.Header.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0")
+	api.Logger.Debug(req)
 	re, err := api.Client.Do(req)
 	if err != nil {
 		api.Logger.Debug(err)

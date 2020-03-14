@@ -1,0 +1,7 @@
+#巨额交易
+```
+{{.Amount | Ftoa | Comma}} BTC (${{.Amount_usd | Ftoa | Comma}})
+从: {{.From.Owner_type}}
+到: {{.To.Owner_type}}
+```
+[细节](https://www.blockchain.com/btc/tx/{{.Hash}})

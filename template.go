@@ -44,10 +44,25 @@ func Raw(raw string) template.HTML {
 	return template.HTML(raw)
 }
 
+func Ftoa(v float64) string {
+	return fmt.Sprintf("%d",int64(v))
+}
+
+func Comma(s string) string {
+	n := len(s)
+	if n <= 3 {
+		return s
+	}
+	return Comma(s[:n-3]) + "," + Comma(s[n-3:])
+}
+
 func LoadTemplate(root string){
 	FuncMap["GetBtcValueString"] = GetBtcValueString
 	FuncMap["GetPastTime"] = GetPastTime
 	FuncMap["Raw"] = Raw
+	FuncMap["Comma"] = Comma
+	FuncMap["Ftoa"] = Ftoa
+
 	if root[len(root)-1:] != "/" {
 		root = root + "/"
 	}
@@ -59,6 +74,7 @@ func LoadTemplate(root string){
 	loadtmp("quotes", root + "quotes.tmp")
 	loadtmp("exchange", root + "exchange.tmp")
 	loadtmp("market", root + "market.tmp")
+	loadtmp("alert", root + "alert.tmp")
 }
 
 func ParseToString(key string, i interface{}) (str string) {
