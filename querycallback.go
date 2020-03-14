@@ -21,6 +21,8 @@ func showQuotes(update *tgbotapi.Update) {
 	msg.ParseMode = "Markdown"
 
 	msg.Text += _quotes(mp["arg"])
+	bk := tgbotapi.NewCallback(update.CallbackQuery.ID, "")
 
 	send(&msg, 5)
+	Bot.TgBot.AnswerCallbackQuery(bk) // 这样按钮上的状态圆圈就不会一直转了
 }
