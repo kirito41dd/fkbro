@@ -7,6 +7,19 @@ Telegram Bot [@btcinfo_kirito_bot](https://t.me/btcinfo_kirito_bot) 暴躁老哥
 * `/help`获取操作方法
 * 可以把机器人添加到群组
 
+图片可能和最新版本不符合：
+<table>
+  <tr>
+        <td align="center"><img src="https://raw.githubusercontent.com/zshorz/markdownphoto/master/fkbor/quotes.png" width=400 /><br />
+        <td align="center"><img src="https://raw.githubusercontent.com/zshorz/markdownphoto/master/fkbor/newest.png" width=400 /><br />
+  </tr>
+  <tr>
+          <td align="center"><img src="https://raw.githubusercontent.com/zshorz/markdownphoto/master/fkbor/market.png" width=400 /><br />
+          <td align="center"><img src="https://raw.githubusercontent.com/zshorz/markdownphoto/master/fkbor/q.png" width=400 /><br />
+  </tr>
+</table>
+
+
 ## 编译
 * 进入到项目的根目录
 * 执行 `go build -o fkbro.exe github.com/zshorz/fkbro`
