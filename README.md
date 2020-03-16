@@ -33,6 +33,8 @@ Telegram Bot [@btcinfo_kirito_bot](https://t.me/btcinfo_kirito_bot) 暴躁老哥
   * `static_path` - `/static`文件夹的路径,要确保程序运行时可以找到
   * `bot_owner` - 机器人拥有者,填telegram用户名
   * `whale_apikey` - rss功能需要的apikey,[WhaleAlert](https://docs.whale-alert.io/#introduction),留空为不启用
+    * 启用后，要用`setup.sql`初始化mysql数据库
+    * 并填写相关设置
   * 其余保持默认
 * 执行 `./fkbro.exe -c config.json` ,也可以不用`-c`参数,默认执行目录下`config.json`
 * [release](https://github.com/zshorz/fkbro/releases) 里已经为Linux提供了编译好的二进制文件

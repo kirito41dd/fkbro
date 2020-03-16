@@ -1,7 +1,6 @@
-#巨额交易
+#大额转账
 ```
-{{.Amount | Ftoa | Comma}} BTC (${{.Amount_usd | Ftoa | Comma}})
-从: {{.From.Owner_type}}
-到: {{.To.Owner_type}}
+{{.Amount |Itoa| Comma}} {{.Symbol}} (${{.AmountUsd  |Itoa| Comma}})
+从: {{.FromOwner}}
+到: {{.TomOwner}}
 ```
-[细节](https://www.blockchain.com/btc/tx/{{.Hash}})

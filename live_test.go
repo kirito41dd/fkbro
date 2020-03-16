@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/zshorz/fkbro/marketinfo"
 	"io/ioutil"
 	"net/http"
 	"testing"
@@ -27,7 +28,7 @@ func Test_WhaleAlert(t *testing.T) {
 	t.Log(req.URL)
 	resp, _ := client.Do(req)
 	data , _ := ioutil.ReadAll(resp.Body)
-	var w WhaleAlert
+	var w marketinfo.WhaleAlert
 	json.Unmarshal(data, &w)
 	t.Log(w)
 }

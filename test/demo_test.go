@@ -3,11 +3,11 @@ package test
 import (
 	"crypto/tls"
 	"encoding/json"
-	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-telegram-bot-api/telegram-bot-api"
+	"github.com/zshorz/ezlog"
 	"github.com/zshorz/fkbro/btcinfo"
 	"github.com/zshorz/fkbro/util"
-	"github.com/zshorz/ezlog"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -189,4 +189,26 @@ func Test_kline(t *testing.T) {
 	t.Log(data)
 	json.Unmarshal(data, &m)
 	t.Log(m)
+}
+
+func Test_database(t *testing.T) {
+	now := time.Now()
+	futher := now.AddDate(0,0,1)
+	t.Log(now)
+	t.Log(futher)
+	t0 := time.Date(futher.Year(), futher.Month(), futher.Day(), 0,0,0,0, now.Location())
+	t.Log(t0)
+	t.Log((t0.Unix()-now.Unix())/60/60)
+	t.Log("??????\n")
+	<- time.After(time.Second * time.Duration(t0.Unix()-now.Unix()))
+	//
+	//data.Setup( "192.168.0.105:3306", "fkbro", "root", "123456")
+	//
+	//now = time.Now()
+	// t0 = time.Date(now.Year(),now.Month(),now.Day(),0,0,0,0,now.Location() )
+	// arr := data.GetAlertsByTimeStamp("btc", t0.Unix())
+	// t.Log(t0.String())
+	// for _, v := range arr {
+	// 	t.Log(v)
+	// }
 }

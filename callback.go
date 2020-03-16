@@ -303,6 +303,8 @@ func send(msg *tgbotapi.MessageConfig, duration int) {
 			break
 		}
 	}
-	/// TODO: 调试用，不要每次加载，发行时删除这个
-	LoadTemplate(util.Config.StaticPath)
+	//调试用，不要每次加载
+	if util.Config.Debug {
+		LoadTemplate(util.Config.StaticPath)
+	}
 }

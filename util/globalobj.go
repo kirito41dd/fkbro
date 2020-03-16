@@ -16,6 +16,12 @@ type GlobalObj struct {
 	Debug 		bool 	`json:"debug"`
 	BotOwner 	string 	`json:"bot_owner"` // username 如 yesiare 不要@
 	WhaleApikey string  `json:"whale_apikey"` // https://docs.whale-alert.io/#introduction
+	AlertMinV	int64 	`json:"alert_min_v"`
+	LookMinV	int64 	`json:"look_min_v"`
+	DbAddr 		string  `json:"db_addr"` // 192.168.0.105:3306
+	DbUser 		string 	`json:"db_user"`
+	DbPasswd 	string  `json:"db_passwd"`
+	DbName		string 	`json:"db_name"`
 }
 
 
@@ -49,6 +55,8 @@ func init() {
 		Debug:		true,
 		BotOwner: 	"yesiare",
 		WhaleApikey: "",
+		AlertMinV: 2000000,
+		LookMinV:  1000000,
 	}
 	Logger = ezlog.New(os.Stdout, "", ezlog.BitDefault, ezlog.LogAll)
 }

@@ -6,5 +6,11 @@
   "static_path": "static",
   "debug": false,
   "bot_owner": "yesiare",
-  "whale_apikey": ""
+  "whale_apikey": "",
+  "alert_min_v": 2000000,
+  "look_min_v": 1000000,
+  "db_addr": "127.0.0.1:3306",
+  "db_user": "root",
+  "db_passwd": "123456",
+  "db_name": "fkbro"
 }

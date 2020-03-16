@@ -44,7 +44,7 @@ func Raw(raw string) template.HTML {
 	return template.HTML(raw)
 }
 
-func Ftoa(v float64) string {
+func Itoa(v int64) string {
 	return fmt.Sprintf("%d",int64(v))
 }
 
@@ -61,7 +61,7 @@ func LoadTemplate(root string){
 	FuncMap["GetPastTime"] = GetPastTime
 	FuncMap["Raw"] = Raw
 	FuncMap["Comma"] = Comma
-	FuncMap["Ftoa"] = Ftoa
+	FuncMap["Itoa"] = Itoa
 
 	if root[len(root)-1:] != "/" {
 		root = root + "/"
@@ -75,6 +75,7 @@ func LoadTemplate(root string){
 	loadtmp("exchange", root + "exchange.tmp")
 	loadtmp("market", root + "market.tmp")
 	loadtmp("alert", root + "alert.tmp")
+	loadtmp("report", root + "report.tmp")
 }
 
 func ParseToString(key string, i interface{}) (str string) {

@@ -2,8 +2,11 @@ package main
 
 import (
 	"github.com/zshorz/fkbro/btcinfo"
+	"github.com/zshorz/fkbro/data"
 	"github.com/zshorz/fkbro/util"
+	"log"
 	"testing"
+	"time"
 )
 
 func Test_temp(t *testing.T) {
@@ -26,24 +29,47 @@ func Test_temp(t *testing.T) {
 
 func Test_alert(t *testing.T) {
 	LoadTemplate(util.Config.StaticPath)
-	w := WhaleTrans{
-		Blockchain: "",
-		Symbol:     "",
-		Hash:       "",
-		Timestamp:  0,
-		Amount:     0,
-		Amount_usd: 0,
-		From:       WhaleAddr{},
-		To:         WhaleAddr{},
+	alert := data.Alert{
+		ID:        0,
+		TimeStamp: 124,
+		Symbol:    "btc",
+		Hash:      "548448",
+		Amount:    1234,
+		AmountUsd: 215464468,
+		FromAddr:  "",
+		FromOwner: "fo",
+		TomAddr:   "",
+		TomOwner:  "tow",
 	}
-	w.Amount_usd = 1234567
-	w.Amount = 123
-	w.From.Owner_type= "from"
-	w.To.Owner_type = "to"
-	w.Hash = "asd"
-	str := ParseToString("alert", w)
-	t.Log(str)
+	t.Error(ParseToString("alert", &alert))
 }
+
+func Test_daily(t *testing.T) {
+	data.Setup( "192.168.0.105:3306", "fkbro", "root", "123456")
+	LoadTemplate(util.Config.StaticPath)
+	now := time.Now()
+	futher := now.AddDate(0,0,1)
+	_ = time.Date(futher.Year(), futher.Month(), futher.Day(), 0,0,0,0, futher.Location())
+	//<- time.After(time.Second * time.Duration(t0.Unix()-now.Unix()))
+	last0 := time.Date(now.Year(), now.Month(), now.Day(), 0,0,0,0, now.Location())
+	report := calc("btc", last0.Unix())
+	for k,v := range report.Data {
+		t.Log(k)
+		t.Log(v)
+	}
+	report.Time = "今日"
+	text := ParseToString("report", report)
+	//t.Log(text)
+	log.Print(text)
+	data.DeleteAlert(last0.Unix())
+	report = calc("usdt", last0.Unix())
+	text = ParseToString("report", report)
+	log.Print(text)
+}
+
+
+
+
 
 
 

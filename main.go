@@ -5,6 +5,7 @@ import (
 	"github.com/zshorz/ezlog"
 	"github.com/zshorz/fkbro/bot"
 	"github.com/zshorz/fkbro/btcinfo"
+	"github.com/zshorz/fkbro/data"
 	"github.com/zshorz/fkbro/marketinfo"
 	"github.com/zshorz/fkbro/util"
 	"os"
@@ -17,6 +18,7 @@ var Log = ezlog.New(os.Stdout, "", ezlog.BitDefault, ezlog.LogAll)
 var Bot *bot.Bot
 var API *btcinfo.BTC_com_api
 var HuobiAPI *marketinfo.Huobi
+var WhaleAPI *marketinfo.WhaleAPI
 
 var configfile string
 
@@ -29,6 +31,7 @@ func main() {
 
 	API = btcinfo.NewBTC_com_api(util.Config.ApiHost, util.Config.CacheSize)
 	HuobiAPI = marketinfo.NewHuobi(util.Config.Proxy)
+	WhaleAPI = marketinfo.NewWhaleAPI()
 
 	for  {
 		bot, error := bot.NewBot(util.Config.BotToken, util.Config.Proxy)
@@ -45,6 +48,7 @@ func main() {
 		Log.SetLogLevel(ezlog.LogInfo)
 		API.Logger.SetLogLevel(ezlog.LogInfo)
 		Bot.Logger.SetLogLevel(ezlog.LogInfo)
+		data.Log.SetLogLevel(ezlog.LogInfo)
 	}
 
 	Log.Info("create bot success")
