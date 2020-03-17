@@ -31,6 +31,15 @@ func (al *Alert) Insert() error {
 	return nil
 }
 
+func (al *Alert) CalcWarnLevel() string {
+	n := int(al.AmountUsd / 10000000)
+	var s string
+	for i := 0; i < n; i++ {
+		s += "🚨"
+	}
+	return s
+}
+
 func GetAlertsByTimeStamp(symbol string, timestamp int64) []*Alert {
 	statement := "select id,time_stamp,symbol,hash,amount,amount_usd,from_addr,from_owner,to_addr,to_owner from alert where symbol=? and time_stamp>=? order by time_stamp"
 	stmt, err := DB.Prepare(statement)

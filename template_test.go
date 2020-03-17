@@ -57,12 +57,12 @@ func Test_daily(t *testing.T) {
 		t.Log(k)
 		t.Log(v)
 	}
-	report.Time = "今日"
+	report.Time = "#日报"
 	text := ParseToString("report", report)
 	//t.Log(text)
 	log.Print(text)
-	data.DeleteAlert(last0.Unix())
-	report = calc("usdt", last0.Unix())
+	report = calc("usdt", 0)
+	report.Time = "#日报"
 	text = ParseToString("report", report)
 	log.Print(text)
 }

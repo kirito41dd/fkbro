@@ -1,4 +1,4 @@
-#大额转账
+#大额转账 {{.CalcWarnLevel}}
 ```
 {{.Amount |Itoa| Comma}} {{.Symbol}} (${{.AmountUsd  |Itoa| Comma}})
 从: {{.FromOwner}}

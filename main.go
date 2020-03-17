@@ -49,6 +49,7 @@ func main() {
 		API.Logger.SetLogLevel(ezlog.LogInfo)
 		Bot.Logger.SetLogLevel(ezlog.LogInfo)
 		data.Log.SetLogLevel(ezlog.LogInfo)
+		WhaleAPI.Logger.SetLogLevel(ezlog.LogInfo)
 	}
 
 	Log.Info("create bot success")

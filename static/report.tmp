@@ -1,7 +1,9 @@
+{{.Time}} 统计: *{{.Name}}* 🔊🔊🔊
 ```
-{{.Time}}大额统计: {{.Name}}
-
-{{range $k,$v := .Data}}{{$k}} 转入 {{$v.TotalIn |Itoa| Comma}} 未知来源{{$v.UnknownIN |Itoa| Comma}}, 转出 {{$v.TotalOut |Itoa| Comma}} 未知来源{{$v.UnknownOut |Itoa| Comma}}
+{{range $k,$v := .Data}}
+{{$k}}:
+ - 转入 {{$v.TotalIn |Itoa| Comma}} 未知来源{{$v.UnknownIN |Itoa| Comma}}
+ - 转出 {{$v.TotalOut |Itoa| Comma}} 未知去向{{$v.UnknownOut |Itoa| Comma}}
 {{end}}
 共流入 {{.IN}} 共流出 {{.OUT}}
 总计{{if lt .GetINOUT 0}}减少{{else}}增加{{end}} {{.Abs |Itoa| Comma}} $({{.AbsUsd |Itoa| Comma}})

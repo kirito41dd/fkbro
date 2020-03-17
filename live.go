@@ -148,14 +148,14 @@ func daily() {
 		futher := now.AddDate(0,0,1)
 		t0 := time.Date(futher.Year(), futher.Month(), futher.Day(), 0,0,0,0, futher.Location())
 		dur := time.Second * time.Duration(t0.Unix()-now.Unix())
-		Log.Debug("等待执行", int64(dur/time.Second/60/60), "小时后")
+		Log.Info("等待执行", int64(dur/time.Second/60/60), "小时后")
 		<- time.After(dur)
 		last0 := time.Date(now.Year(), now.Month(), now.Day(), 0,0,0,0, now.Location())
 		// 开始执行 0 点任务
 		btcrep := calc("btc", last0.Unix())
 		usdtrep := calc("usdt", last0.Unix())
-		btcrep.Time = "昨日"
-		usdtrep.Time = "昨日"
+		btcrep.Time = "#日报"
+		usdtrep.Time = "#日报"
 		doReport(btcrep)
 		doReport(usdtrep)
 
@@ -164,8 +164,8 @@ func daily() {
 			nt := t.AddDate(0,0,-7)
 			btcrep := calc("btc", nt.Unix())
 			usdtrep := calc("usdt", nt.Unix())
-			btcrep.Time = "上周"
-			usdtrep.Time = "上周"
+			btcrep.Time = "#周报"
+			usdtrep.Time = "#周报"
 			doReport(btcrep)
 			doReport(usdtrep)
 			data.DeleteAlert(nt.Unix())
