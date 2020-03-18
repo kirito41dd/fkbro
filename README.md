@@ -6,6 +6,7 @@ Telegram Bot [@btcinfo_kirito_bot](https://t.me/btcinfo_kirito_bot) 暴躁老哥
 * 在`Telegram`中搜索 `@btcinfo_kirito_bot` 即可添加机器人 
 * `/help`获取操作方法
 * 可以把机器人添加到群组
+* 链上资金监控请关注频道 `@fkbrolive`
 
 图片可能和最新版本不符合：
 <table>
@@ -16,6 +17,10 @@ Telegram Bot [@btcinfo_kirito_bot](https://t.me/btcinfo_kirito_bot) 暴躁老哥
   <tr>
           <td align="center"><img src="https://raw.githubusercontent.com/zshorz/markdownphoto/master/fkbor/market.png" width=400 /><br />
           <td align="center"><img src="https://raw.githubusercontent.com/zshorz/markdownphoto/master/fkbor/q.png" width=400 /><br />
+  </tr>
+  <tr>
+          <td align="center"><img src="https://raw.githubusercontent.com/zshorz/markdownphoto/master/fkbor/live.jpg" width=400 /><br />
+          <td align="center"><img src="https://raw.githubusercontent.com/zshorz/markdownphoto/master/fkbor/live2.jpg" width=400 /><br />
   </tr>
 </table>
 

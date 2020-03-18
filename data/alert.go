@@ -34,6 +34,9 @@ func (al *Alert) Insert() error {
 func (al *Alert) CalcWarnLevel() string {
 	n := int(al.AmountUsd / 10000000)
 	var s string
+	if n > 10 {
+		n = 10
+	}
 	for i := 0; i < n; i++ {
 		s += "🚨"
 	}
