@@ -157,6 +157,7 @@ func recent(update *tgbotapi.Update) {
 			break
 		}
 		arr = append(arr, b)
+		<-time.After(time.Millisecond * 100) // 间隔100毫秒
 	}
 
 	msg.Text += ParseToString("recent", arr)
@@ -357,3 +358,22 @@ func send(msg *tgbotapi.MessageConfig, duration int) {
 		LoadTemplate(util.Config.StaticPath)
 	}
 }
+
+func addRss(username string) {
+	chat, err := Bot.TgBot.GetChat(tgbotapi.ChatConfig{
+		ChatID:             0,
+		SuperGroupUsername: "@"+username,
+	})
+	if err != nil {
+		return
+	}
+	liveMapLock.Lock()
+	_, ok := liveMap[username]
+	if ok {
+		delete(liveMap, username)
+	} else {
+		liveMap[username] = chat.ID
+	}
+	liveMapLock.Unlock()
+}
+

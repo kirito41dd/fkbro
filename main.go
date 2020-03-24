@@ -51,6 +51,7 @@ func main() {
 		data.Log.SetLogLevel(ezlog.LogInfo)
 		WhaleAPI.Logger.SetLogLevel(ezlog.LogInfo)
 	}
+	doConfig()
 
 	Log.Info("create bot success")
 
@@ -74,6 +75,12 @@ func main() {
 	go live()
 	Bot.Loop()
 	Log.Info("good bye: api query cnt", API.QueryCnt)
+}
+
+func doConfig() {
+	for _, s := range util.Config.Rss {
+		addRss(s)
+	}
 }
 
 func doSignal() {

@@ -22,6 +22,7 @@ type GlobalObj struct {
 	DbUser 		string 	`json:"db_user"`
 	DbPasswd 	string  `json:"db_passwd"`
 	DbName		string 	`json:"db_name"`
+	Rss 		[]string `json:"rss"` // 提前订阅的用户列表，服务启动自动订阅，不加@
 }
 
 

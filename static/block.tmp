@@ -6,4 +6,4 @@
 `块大小`: `{{.Size}}B`
 `时 间 `: `{{GetPastTime .Timestamp}}`
 `块哈希`: `{{.Hash}}`
-`详情 `: [btc.com](https://btc.com/{{.Hash}})
+`详情 `: [blockchair](https://blockchair.com/zh/bitcoin/block/{{.Hash}})

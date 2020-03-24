@@ -6,4 +6,4 @@
 `大小` : `{{.Size}}B`
 `收益` : `{{.GetReword}}BTC`
 {{end}}
-`详情 `: [btc.com](https://btc.com)
+`详情 `: [blockchain](https://www.blockchain.com/zh/explorer)

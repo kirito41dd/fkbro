@@ -12,5 +12,6 @@
   "db_addr": "127.0.0.1:3306",
   "db_user": "root",
   "db_passwd": "123456",
-  "db_name": "fkbro"
+  "db_name": "fkbro",
+  "rss": ["fkbrolive"]
 }

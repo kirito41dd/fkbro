@@ -6,7 +6,4 @@
 `余额` : `{{.GetBalance}}BTC`
 `交易次数` : `{{.Tx_count}}`
 `最后一次交易` : `{{.Last_tx}}`
-`详情` : [btc.com](https://btc.com/{{.Address}})
-
-
-
+`详情` : [blockchair](https://blockchair.com/zh/bitcoin/address/{{.Address}})

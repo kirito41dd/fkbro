@@ -8,4 +8,4 @@
 `时间` : `{{GetPastTime .Block_time}}`
 `输入` : `{{GetBtcValueString .Inputs_value}}BTC` `从{{.Inputs_count}}个地址`
 `输出` : `{{GetBtcValueString .Outputs_value}}BTC` `到{{.Outputs_count}}个地址`
-`详情 `: [btc.com](https://btc.com/{{.Hash}})
+`详情 `: [blockchair](https://blockchair.com/zh/bitcoin/transaction/{{.Hash}})
