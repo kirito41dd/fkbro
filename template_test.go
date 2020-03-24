@@ -35,7 +35,7 @@ func Test_alert(t *testing.T) {
 		Symbol:    "btc",
 		Hash:      "548448",
 		Amount:    1234,
-		AmountUsd: 215464468,
+		AmountUsd: 0,
 		FromAddr:  "",
 		FromOwner: "fo",
 		TomAddr:   "",

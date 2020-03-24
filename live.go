@@ -111,6 +111,12 @@ func look(currency string) { // btc usdc
 				TomAddr:   trans.To.Address,
 				TomOwner:  trans.To.Owner,
 			}
+			switch currency {
+			case "btc":
+				al.SetURL("https://www.blockchain.com/btc/tx/" + al.Hash)
+			case "usdt":
+				al.SetURL("https://www.blockchain.com/eth/tx/0x" + al.Hash)
+			}
 			Log.Debug(trans)
 			if trans.From.Owner != trans.To.Owner{ // 双方账户不一样才处理
 				err := al.Insert() // 存入数据库

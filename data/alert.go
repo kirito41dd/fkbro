@@ -11,6 +11,14 @@ type Alert struct {
 	FromOwner		string
 	TomAddr 		string
 	TomOwner		string
+	url 			string
+}
+
+func (al *Alert)SetURL(s string) {
+	al.url = s
+}
+func (al *Alert)GetURL() string {
+	return al.url
 }
 
 func (al *Alert) Insert() error {

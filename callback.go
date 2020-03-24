@@ -5,6 +5,7 @@ import (
 	"fmt"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/zshorz/fkbro/btcinfo"
+	"github.com/zshorz/fkbro/data"
 	"github.com/zshorz/fkbro/marketinfo"
 	"github.com/zshorz/fkbro/util"
 	"regexp"
@@ -14,6 +15,53 @@ import (
 	"time"
 )
 
+// 测试专用
+func test(update *tgbotapi.Update) {
+	if (util.Config.Debug){
+		msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
+		msg.ParseMode = "Markdown"
+
+		alert := data.Alert{
+			ID:        0,
+			TimeStamp: 124,
+			Symbol:    "btc",
+			Hash:      "548448",
+			Amount:    1234,
+			AmountUsd: 55464468,
+			FromAddr:  "",
+			FromOwner: "fo",
+			TomAddr:   "",
+			TomOwner:  "tow",
+		}
+		alert.SetURL("https://www.blockchain.com/btc/tx/b3b6cda500a9fc9b4ed0df5d7cd07f747edcd7488bf4dc4cc97047e6e2354a95")
+		msg.Text = ParseToString("alert", &alert)
+
+		send(&msg, 5)
+	}
+}
+
+func now(update *tgbotapi.Update) {
+	Log.Debug("recv msg:", update.Message.Text, "chatID:", update.Message.Chat.ID)
+	msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
+	msg.ParseMode = "Markdown"
+	timenow := time.Now()
+	timenow = time.Date(timenow.Year(),timenow.Month(),timenow.Day(),0,0,0,0,timenow.Location())
+	var want string
+	fds := strings.Fields(update.Message.Text)
+	for _,s := range fds {
+		if s[0] != '/' && s[0] != '@' {
+			want = s
+			break
+		}
+	}
+
+	rep := calc(want, timenow.Unix())
+	rep.Time = "#简报"
+
+	msg.Text = ParseToString("report", rep)
+
+	send(&msg, 5)
+}
 
 func rss(update *tgbotapi.Update) {
 	Log.Debug("recv msg:", update.Message.Text, "chatID:", update.Message.Chat.ID)
@@ -293,6 +341,7 @@ func send(msg *tgbotapi.MessageConfig, duration int) {
 	if len(msg.Text) == 0 {
 		return
 	}
+	msg.DisableWebPagePreview = true // 不生成连接预览
 	cnt := 20
 	for ; cnt > 0; cnt-- {
 		_, err := Bot.TgBot.Send(msg)

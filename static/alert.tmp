@@ -3,4 +3,4 @@
 {{.Amount |Itoa| Comma}} {{.Symbol}} (${{.AmountUsd  |Itoa| Comma}})
 从: {{.FromOwner}}
 到: {{.TomOwner}}
-```
+```[TX-link]({{.GetURL}}) @fkbrolive

@@ -64,6 +64,8 @@ func main() {
 	Bot.Router.AddHandle("/exchange", exchange)
 	Bot.Router.AddHandle("/market", market)
 	Bot.Router.AddHandle("/rss", rss)
+	Bot.Router.AddHandle("/now", now)
+	Bot.Router.AddHandle("/test", test)
 
 	Bot.CallbackQueryRouter.AddHandle("showQuotes", showQuotes)
 
