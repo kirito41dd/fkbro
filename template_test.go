@@ -52,7 +52,7 @@ func Test_daily(t *testing.T) {
 	_ = time.Date(futher.Year(), futher.Month(), futher.Day(), 0,0,0,0, futher.Location())
 	//<- time.After(time.Second * time.Duration(t0.Unix()-now.Unix()))
 	last0 := time.Date(now.Year(), now.Month(), now.Day(), 0,0,0,0, now.Location())
-	report := calc("btc", last0.Unix())
+	report := calc("btc", last0.Unix(), 5)
 	for k,v := range report.Data {
 		t.Log(k)
 		t.Log(v)
@@ -61,7 +61,7 @@ func Test_daily(t *testing.T) {
 	text := ParseToString("report", report)
 	//t.Log(text)
 	log.Print(text)
-	report = calc("usdt", 0)
+	report = calc("usdt", 0, 5)
 	report.Time = "#日报"
 	text = ParseToString("report", report)
 	log.Print(text)

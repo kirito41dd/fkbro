@@ -1,7 +1,6 @@
 {{.Time}} 统计: *{{.Name}}* 🔊🔊🔊
 ```
-{{range $k,$v := .Data}}
-{{$k}}:
+{{range $k,$v := .Data}}{{$k}}:
  - 转入 {{$v.TotalIn |Itoa| Comma}} 未知来源{{$v.UnknownIN |Itoa| Comma}}
  - 转出 {{$v.TotalOut |Itoa| Comma}} 未知去向{{$v.UnknownOut |Itoa| Comma}}
 {{end}}

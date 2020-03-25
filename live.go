@@ -160,8 +160,8 @@ func daily() {
 		<- time.After(dur)
 		last0 := time.Date(now.Year(), now.Month(), now.Day(), 0,0,0,0, now.Location())
 		// 开始执行 0 点任务
-		btcrep := calc("btc", last0.Unix())
-		usdtrep := calc("usdt", last0.Unix())
+		btcrep := calc("btc", last0.Unix(), 5000000) // 500w$ 才会打印
+		usdtrep := calc("usdt", last0.Unix(), 5000000)
 		btcrep.Time = "#日报"
 		usdtrep.Time = "#日报"
 		doReport(btcrep)
@@ -170,8 +170,8 @@ func daily() {
 		t:= time.Now()
 		if  t.Weekday() == 0 { // 一周任务
 			nt := t.AddDate(0,0,-7)
-			btcrep := calc("btc", nt.Unix())
-			usdtrep := calc("usdt", nt.Unix())
+			btcrep := calc("btc", nt.Unix(), 25000000)
+			usdtrep := calc("usdt", nt.Unix(), 25000000)
 			btcrep.Time = "#周报"
 			usdtrep.Time = "#周报"
 			doReport(btcrep)
@@ -197,7 +197,7 @@ func doReport(rep *report) {
 }
 
 // 统计币种情况, 不会返回 nil
-func calc(currency string, timestamp int64) *report{
+func calc(currency string, timestamp int64, minVal int64) *report{
 	re := &report{
 		Name: currency,
 		Data: make(map[string]*reportData),
@@ -241,7 +241,12 @@ func calc(currency string, timestamp int64) *report{
 				re.IN_usd += alert.AmountUsd // 流入交易所
 			}
 		}
-
+	}
+	// 交易额小于 minVal 美元的不显示
+	for k,v := range re.Data {
+		if v.TotalIn_usd + v.TotalOut_usd < minVal {
+			delete(re.Data, k)
+		}
 	}
 	return re
 }

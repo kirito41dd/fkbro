@@ -55,7 +55,7 @@ func now(update *tgbotapi.Update) {
 		}
 	}
 
-	rep := calc(want, timenow.Unix())
+	rep := calc(want, timenow.Unix(), 5000000)
 	rep.Time = "#简报"
 
 	msg.Text = ParseToString("report", rep)
