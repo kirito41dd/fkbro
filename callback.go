@@ -46,7 +46,7 @@ func now(update *tgbotapi.Update) {
 	msg.ParseMode = "Markdown"
 	timenow := time.Now()
 	timenow = time.Date(timenow.Year(),timenow.Month(),timenow.Day(),0,0,0,0,timenow.Location())
-	var want string
+	var want string = "btc"
 	fds := strings.Fields(update.Message.Text)
 	for _,s := range fds {
 		if s[0] != '/' && s[0] != '@' {
