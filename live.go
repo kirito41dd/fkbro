@@ -222,7 +222,7 @@ func calc(currency string, timestamp int64, minVal int64) *report{
 			data := re.Data[alert.FromOwner]
 			data.TotalOut += alert.Amount
 			data.TotalOut_usd += alert.AmountUsd
-			if alert.TomOwner == "unknown" {
+			if alert.TomOwner == "unknown" && alert.FromOwner != "tether treasury" { // 泰达币金库不应视为交易所
 				data.UnknownOut += alert.Amount
 				data.UnknownOut_usd += alert.AmountUsd
 				re.OUT += alert.Amount // 流出交易所
@@ -234,7 +234,7 @@ func calc(currency string, timestamp int64, minVal int64) *report{
 			data := re.Data[alert.TomOwner]
 			data.TotalIn += alert.Amount
 			data.TotalIn_usd += alert.AmountUsd
-			if alert.FromOwner == "unknown" {
+			if alert.FromOwner == "unknown" && alert.TomOwner != "tether treasury" {
 				data.UnknownIN += alert.Amount
 				data.UnknownIN_usd += alert.AmountUsd
 				re.IN += alert.Amount // 流入交易所
